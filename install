@@ -11,11 +11,25 @@ fi
 
 MY_DIR=$(dirname $0)
 systemd='/etc/systemd/system/'
-sbin='/usr/local/sbin/qos'
+unit='qos.service'
+sbin='/usr/local/sbin/'
+script='qos'
+sbinscript="$sbin/$script"
 
-cp "$MY_DIR"/qos.service "$systemd"
-cp "$MY_DIR"/qos "$sbin"
+echo "Stopping $unit"
+systemctl stop "$unit"
 
-chmod u+x "$sbin"
+echo "Copying $unit to $systemd"
+cp "$MY_DIR/$unit" "$systemd"
+echo "Copying $script to $sbin"
+cp "$MY_DIR/$script" "$sbin"
 
+echo "Giving $USER execute permission on $sbinscript"
+chmod u+x "$sbinscript"
+
+echo 'Reloading systemd daemon units'
 systemctl daemon-reload
+echo "Starting $unit"
+systemctl start "$unit"
+echo "Status of $unit:"
+systemctl status "$unit"

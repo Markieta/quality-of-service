@@ -7,10 +7,9 @@ Ensure Docker is enabled on boot and started:
 sudo systemctl enable docker.service
 sudo systemctl start docker.service
 ```
-Install, enable, and run qos:
+Install, run, and enable qos:
 
 ```
 sudo ./install
 sudo systemctl enable qos.service
-sudo systemctl start qos.service
 ```
