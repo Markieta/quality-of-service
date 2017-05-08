@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# Install Quality of Service files to operational directories
+
+set -e
+
+if [ $(id -u) -ne 0 ]; then
+    echo "Root privileges are required for running $0."
+    exit 1
+fi
+
+MY_DIR=$(dirname $0)
+systemd='/etc/systemd/system/'
+sbin='/usr/local/sbin/qos'
+
+cp "$MY_DIR"/qos.service "$systemd"
+cp "$MY_DIR"/qos "$sbin"
+
+chmod u+x "$sbin"
+
+systemctl daemon-reload
