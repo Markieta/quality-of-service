@@ -74,6 +74,6 @@ function restart()
 }
 
 case "$1" in
-    start|stop) "$1" ;;
+    start|stop|restart|pause|resume) "$1" ;;
     *) echo $"Usage: $0 {start|stop|restart|pause|resume}"
 esac
