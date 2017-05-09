@@ -2,12 +2,12 @@
 
 function pause()
 {
-    /usr/bin/docker exec airing /usr/bin/transmission-remote -t all -S
+    /usr/bin/transmission-remote 60000 -t all -S
 }
 
 function resume()
 {
-    /usr/bin/docker exec airing /usr/bin/transmission-remote -t all -s
+    /usr/bin/transmission-remote 60000 -t all -s
 }
 
 function start()
