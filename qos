@@ -2,14 +2,12 @@
 
 function pause()
 {
-    /usr/bin/docker stop sonarr
-    /usr/bin/docker exec -it airing /usr/bin/transmission-remote -t all -S
+    /usr/bin/docker exec airing /usr/bin/transmission-remote -t all -S
 }
 
 function resume()
 {
-    /usr/bin/docker start sonarr
-    /usr/bin/docker exec -it airing /usr/bin/transmission-remote -t all -s
+    /usr/bin/docker exec airing /usr/bin/transmission-remote -t all -s
 }
 
 function start()
@@ -57,11 +55,8 @@ function start()
             sleep 600
         else
             sleep 5
-
-            if [ "$on" = false ]; then
-                on=true
-                resume
-            fi
+            on=true
+            resume
         fi
     done
 }
