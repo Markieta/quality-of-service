@@ -7,7 +7,7 @@ function pause()
 
 function resume()
 {
-    /usr/bin/transmission-remote 60000 -t all -s
+    /usr/bin/transmission-remote 60000 -t all -srd -s
 }
 
 function start()
