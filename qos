@@ -3,11 +3,13 @@
 function pause()
 {
     /usr/bin/transmission-remote 60000 -t all -S
+    /usr/bin/transmission-remote 60002 -t all -S
 }
 
 function resume()
 {
     /usr/bin/transmission-remote 60000 -t all -srd -s
+    /usr/bin/transmission-remote 60002 -t all -s
 }
 
 function start()
@@ -17,6 +19,7 @@ function start()
     declare -a hosts=(
         192.168.0.152
         192.168.0.150
+        192.168.0.118
         192.168.0.117
         192.168.0.116
         192.168.0.115
