@@ -2,14 +2,12 @@
 
 function pause()
 {
-    /usr/bin/transmission-remote 60000 -t all -S
-    /usr/bin/transmission-remote 60002 -t all -S
+    /usr/bin/transmission-remote 9091 -t all -S
 }
 
 function resume()
 {
-    /usr/bin/transmission-remote 60000 -t all -srd -s
-    /usr/bin/transmission-remote 60002 -t all -s
+    /usr/bin/transmission-remote 9091 -t all -gsr 5.0 -s
 }
 
 function start()
