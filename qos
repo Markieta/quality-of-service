@@ -2,12 +2,12 @@
 
 function pause()
 {
-    /usr/bin/transmission-remote 9091 -t all -S
+    /usr/bin/transmission-remote 9091 -t all -S > /dev/null
 }
 
 function resume()
 {
-    /usr/bin/transmission-remote 9091 -t all -gsr 5.0 -s
+    /usr/bin/transmission-remote 9091 -t all -gsr 5.0 -s > /dev/null
 }
 
 function start()
@@ -37,7 +37,7 @@ function start()
         declare -a pids
 
         for i in "${hosts[@]}"; do
-            ping "$i" -c 1 -w 5 >/dev/null &
+            ping "$i" -c 1 -w 5 > /dev/null &
             pids+=("$!")
         done
 
@@ -52,7 +52,6 @@ function start()
                 pause
                 on=false
             fi
-
             sleep 600
         else
             sleep 5

@@ -11,5 +11,4 @@ Install, run, and enable qos:
 
 ```
 sudo ./install
-sudo systemctl enable qos.service
 ```

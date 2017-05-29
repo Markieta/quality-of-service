@@ -31,5 +31,7 @@ echo 'Reloading systemd daemon units'
 systemctl daemon-reload
 echo "Starting $unit"
 systemctl start "$unit"
+echo "Reenabling $unit"
+systemctl reenable "$unit"
 echo "Status of $unit:"
 systemctl status "$unit"
