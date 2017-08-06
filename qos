@@ -14,36 +14,22 @@ function start()
 {
     on=false
 
-    declare -a hosts=(
-        192.168.0.152
-        192.168.0.150
-        192.168.0.118
-        192.168.0.117
-        192.168.0.116
-        192.168.0.115
-        192.168.0.114
-        192.168.0.113
-        192.168.0.112
-        192.168.0.111
-        192.168.0.110
-        192.168.0.109
-        192.168.0.107
-        192.168.0.100
+    declare -a ignored=(
+        192.168.0.50
+        192.168.0.101
+        192.168.0.104
+        192.168.0.151
+        192.168.0.200
     )
 
     while true; do
         hostsUp=false
-        unset pids
-        declare -a pids
 
-        for i in "${hosts[@]}"; do
-            ping "$i" -c 1 -w 5 > /dev/null &
-            pids+=("$!")
-        done
+        hosts=($(ssh markieta@192.168.0.1 "/sbin/arp -a" | cut -d "(" -f2 | cut -d ")" -f1))
 
-        for i in "${pids[@]}"; do
-            wait "$i" && hostsUp=true && break
-        done
+        if [ $(echo ${ignored[@]} ${ignored[@]} ${hosts[@]} | tr ' ' '\n' | sort | uniq -u) ]; then
+            hostsUp=true
+        fi
 
         if ! [ "$hostsUp" = false ] ||
            /usr/bin/nmap -p 8080 192.168.0.102 192.168.0.103 192.168.0.108 | grep -qo '8080/tcp open' ||
