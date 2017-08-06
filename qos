@@ -27,13 +27,13 @@ function start()
 
         hosts=($(ssh markieta@192.168.0.1 "/sbin/arp -a" | cut -d "(" -f2 | cut -d ")" -f1))
 
-        if [ $(echo ${ignored[@]} ${ignored[@]} ${hosts[@]} | tr ' ' '\n' | sort | uniq -u) ]; then
+        if [ ! -z "$(echo ${ignored[@]} ${ignored[@]} ${hosts[@]} | tr ' ' '\n' | sort | uniq -u)" ]; then
             hostsUp=true
         fi
 
-        if ! [ "$hostsUp" = false ] ||
-           /usr/bin/nmap -p 8080 192.168.0.102 192.168.0.103 192.168.0.108 | grep -qo '8080/tcp open' ||
+        if [ "$hostsUp" = true ] ||
            [ "$(/usr/bin/wget -q --user admin --password admin 192.168.0.50/DI_S_.xml -O - | grep -co '0 Active Calls')" -ne 3 ]; then
+           [ "$(/usr/bin/curl --data-binary '{ "jsonrpc": "2.0", "method": "XBMC.GetInfoBooleans", "params": { "booleans": ["System.ScreenSaverActive "]}, "id": 1}' -H 'content-type: application/json;' http://kodi@localhost:8080/jsonrpc | jq .result[])" = false ] ||
             if [ "$on" = true ]; then
                 pause
                 on=false
