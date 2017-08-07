@@ -41,11 +41,8 @@ function start()
             sleep 600
         else
             sleep 5
-
-            if [ "$on" = false ]; then
-                on=true
-                resume
-            fi
+            on=true
+            resume
         fi
     done
 }
