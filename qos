@@ -16,6 +16,7 @@ function start()
     pause
 
     declare -a ignored=(
+        192.168.0.1
         192.168.0.50
         192.168.0.51
         192.168.0.52
@@ -27,7 +28,7 @@ function start()
     while true; do
         hostsUp=false
 
-        hosts=($(ssh markieta@192.168.0.1 "/bin/ping -qw5 192.168.0.255 > /dev/null 2>&1; /sbin/arp -an" | cut -d "(" -f2 | cut -d ")" -f1))
+        hosts=$(ping -qw5 192.168.0.255 > /dev/null 2>&1; arp -an | grep -v 'incomplete' | cut -d "(" -f2 | cut -d ")" -f1)
 
         if [ ! -z "$(echo ${ignored[@]} ${ignored[@]} ${hosts[@]} | tr ' ' '\n' | sort | uniq -u)" ]; then
             hostsUp=true
