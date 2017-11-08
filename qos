@@ -35,7 +35,7 @@ function start()
         fi
 
         if [ "$hostsUp" = true ] ||
-           [ "$(/usr/bin/wget -q --user admin --password admin 192.168.0.50/DI_S_.xml -O - | grep -co '0 Active Calls')" -ne 3 ] ||
+           [ "$(/usr/bin/wget -q --user admin --password admin 192.168.0.50/PI_FXS_1_Stats.xml -O - | /usr/bin/xmllint --xpath "string(//model/object/parameter/value/@current)" - )" = "Off Hook" ] ||
            [ "$(/usr/bin/curl --data-binary '{ "jsonrpc": "2.0", "method": "XBMC.GetInfoBooleans", "params": { "booleans": ["System.IdleTime(599) "]}, "id": 1}' -H 'content-type: application/json;' http://kodi@localhost:8080/jsonrpc | jq .result[])" = false ]; then
             if [ "$on" = true ]; then
                 pause
