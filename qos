@@ -28,7 +28,7 @@ function start()
     while true; do
         hostsUp=false
 
-        hosts=$(ping -bqw5 192.168.0.255 > /dev/null 2>&1; arp -an | grep -v 'incomplete' | cut -d "(" -f2 | cut -d ")" -f1)
+        hosts=$(/usr/bin/nmap -sP 192.168.0.* > /dev/null 2>&1; arp -an | grep -v 'incomplete' | cut -d "(" -f2 | cut -d ")" -f1)
 
         if [ ! -z "$(echo ${ignored[@]} ${ignored[@]} ${hosts[@]} | tr ' ' '\n' | sort | uniq -u)" ]; then
             hostsUp=true
