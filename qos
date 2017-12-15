@@ -28,7 +28,8 @@ function start()
     while true; do
         hostsUp=false
 
-        hosts=$(/usr/bin/nmap -n -sn 192.168.0.* -oG - | awk '/Up$/{print $2}')
+        /usr/bin/nmap -sn --send-ip 192.168.0.* > /dev/null 2>&1
+        hosts=$(/usr/sbin/arp -an | grep -v 'incomplete' | cut -d "(" -f2 | cut -d ")" -f1)
 
         if [ -n "$(echo ${ignored[@]} ${ignored[@]} ${hosts[@]} | tr ' ' '\n' | sort | uniq -u)" ]; then
             hostsUp=true
