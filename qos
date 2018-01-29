@@ -2,12 +2,12 @@
 
 function pause()
 {
-    /usr/bin/transmission-remote 9091 -as --alt-speed > /dev/null
+    transmission-remote 9091 -as --alt-speed > /dev/null
 }
 
 function resume()
 {
-    /usr/bin/transmission-remote 9091 -AS --no-alt-speed > /dev/null
+    transmission-remote 9091 -AS --no-alt-speed > /dev/null
 }
 
 function start()
@@ -28,17 +28,17 @@ function start()
     while true; do
         hostsUp=false
 
-        /usr/bin/nmap -sn --send-ip 192.168.0.* > /dev/null 2>&1
-        hosts=$(/usr/sbin/arp -an | grep -v 'incomplete' | cut -d "(" -f2 | cut -d ")" -f1)
+        nmap -sn --send-ip 192.168.0.* > /dev/null 2>&1
+        hosts=$(arp -an | grep -v 'incomplete' | cut -d "(" -f2 | cut -d ")" -f1)
 
         if [ -n "$(echo ${ignored[@]} ${ignored[@]} ${hosts[@]} | tr ' ' '\n' | sort | uniq -u)" ]; then
             hostsUp=true
         fi
 
         if [ "$hostsUp" = true ] ||
-           [[ $(/usr/bin/netstat -anp | grep -w 64738 | grep ESTABLISHED) ]] ||
-           [ "$(/usr/bin/wget -q --user admin --password admin 192.168.0.50/PI_FXS_1_Stats.xml -O - | /usr/bin/xmllint --xpath "string(//model/object/parameter/value/@current)" - )" = "Off Hook" ] ||
-           [ "$(/usr/bin/curl --data-binary '{ "jsonrpc": "2.0", "method": "XBMC.GetInfoBooleans", "params": { "booleans": ["System.IdleTime(599) "]}, "id": 1}' -H 'content-type: application/json;' http://kodi@localhost:8080/jsonrpc | jq .result[])" = false ]; then
+           [[ $(netstat -anp | grep -w 64738 | grep ESTABLISHED) ]] ||
+           [ "$(wget -q --user admin --password admin 192.168.0.50/PI_FXS_1_Stats.xml -O - | xmllint --xpath "string(//model/object/parameter/value/@current)" - )" = "Off Hook" ] ||
+           [ "$(curl --data-binary '{ "jsonrpc": "2.0", "method": "XBMC.GetInfoBooleans", "params": { "booleans": ["System.IdleTime(599) "]}, "id": 1}' -H 'content-type: application/json;' http://kodi@localhost:8080/jsonrpc | jq .result[])" = false ]; then
             if [ "$on" = true ]; then
                 pause
                 on=false
