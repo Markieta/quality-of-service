@@ -2,20 +2,22 @@
 
 function pause()
 {
-    transmission-remote 9091 -as --alt-speed > /dev/null
+    transmission-remote 9091 -as --alt-speed > /dev/null 2>&1
 }
 
 function resume()
 {
-    transmission-remote 9091 -AS --no-alt-speed > /dev/null
+    transmission-remote 9091 -AS --no-alt-speed > /dev/null 2>&1
 }
 
 function start()
 {
+    IFS=,
     on=false
     pause
 
     declare -a ignored=(
+        192.168.0.0
         192.168.0.1
         192.168.0.2
         192.168.0.50
@@ -23,12 +25,13 @@ function start()
         192.168.0.52
         192.168.0.53
         192.168.0.54
+        192.168.0.255
     )
 
     while true; do
         hostsUp=false
 
-        nmap -sn --send-ip 192.168.0.* > /dev/null 2>&1
+        nmap -sn --exclude "${ignored[*]}" --send-ip 192.168.0.* > /dev/null 2>&1
         hosts=$(arp -an | grep -v 'incomplete' | cut -d "(" -f2 | cut -d ")" -f1)
 
         if [ -n "$(echo ${ignored[@]} ${ignored[@]} ${hosts[@]} | tr ' ' '\n' | sort | uniq -u)" ]; then
