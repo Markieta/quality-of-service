@@ -12,7 +12,7 @@ function resume()
 
 function start()
 {
-    IFS=,
+    IFS=','
     on=false
     voipUp=true
     pause
@@ -32,7 +32,7 @@ function start()
     while true; do
         hostsUp=false
 
-        nmap -sn --exclude "${ignored[*]}" --send-ip 192.168.0.* > /dev/null 2>&1
+        nmap -sn --exclude "${ignored[*]}" --send-ip 192.168.0.0/24 > /dev/null 2>&1
         hosts=$(arp -an | grep -v 'incomplete' | cut -d "(" -f2 | cut -d ")" -f1)
 
         if [ -n "$(echo ${ignored[@]} ${ignored[@]} ${hosts[@]} | tr ' ' '\n' | sort | uniq -u)" ]; then
