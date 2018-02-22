@@ -2,12 +2,12 @@
 
 function pause()
 {
-    transmission-remote 9091 -as --alt-speed > /dev/null 2>&1
+    transmission-remote 9091 --alt-speed > /dev/null 2>&1
 }
 
 function resume()
 {
-    transmission-remote 9091 -AS --no-alt-speed > /dev/null 2>&1
+    transmission-remote 9091 --no-alt-speed > /dev/null 2>&1
 }
 
 function start()
