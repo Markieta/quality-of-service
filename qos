@@ -32,7 +32,7 @@ function start()
         hostsUp=false
 
         fping -qg 192.168.0.0/24
-        hosts=$(arp -an | grep -v 'incomplete' | cut -d "(" -f2 | cut -d ")" -f1)
+        hosts=$(arp -an | grep -v 'incomplete' | cut -d "(" -f2 | cut -d ")" -f1 | grep "^192\.168\.0\.")
 
         if [ -n "$(echo ${ignored[@]} ${ignored[@]} ${hosts[@]} | tr ' ' '\n' | sort | uniq -u)" ]; then
             hostsUp=true
