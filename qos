@@ -43,10 +43,10 @@ function start()
 
         if [ -n "$voipStats" ] && [ "$voipUp" = false ]; then
             voipUp=true
-            echo 'https://192.168.0.50/' | mail -s "VoIP is UP" "$ADMIN_EMAIL"
+            echo 'http://192.168.0.50/' | mail -s "VoIP is UP" "$ADMIN_EMAIL"
         elif [ -z "$voipStats" ] && [ "$voipUp" = true ]; then
             voipUp=false
-            echo 'https://192.168.0.50/' | mail -s "VoIP is DOWN" "$ADMIN_EMAIL"
+            echo 'http://192.168.0.50/' | mail -s "VoIP is DOWN" "$ADMIN_EMAIL"
         fi
 
         if [ "$hostsUp" = true ] ||
