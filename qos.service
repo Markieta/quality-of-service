@@ -2,6 +2,7 @@
 Description=Quality of Service daemon
 Wants=network-online.target
 After=network.target network-online.target docker.service
+DefaultDependencies=no
 
 [Service]
 EnvironmentFile=-/etc/environment
