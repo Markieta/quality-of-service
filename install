@@ -16,7 +16,7 @@ sbin='/usr/local/sbin/'
 script='qos'
 sbinscript="$sbin/$script"
 
-systemctl stop "$unit"
+systemctl stop "$unit" || true # First time
 
 cp "$MY_DIR/$unit" "$systemd"
 cp "$MY_DIR/$script" "$sbin"

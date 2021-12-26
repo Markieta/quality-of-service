@@ -2,12 +2,12 @@
 
 function pause()
 {
-    transmission-remote 9091 --alt-speed > /dev/null 2>&1
+    transmission-remote 9091 -N /root/.netrc --alt-speed > /dev/null 2>&1
 }
 
 function resume()
 {
-    transmission-remote 9091 --no-alt-speed > /dev/null 2>&1
+    transmission-remote 9091 -N /root/.netrc --no-alt-speed > /dev/null 2>&1
 }
 
 function start()
@@ -46,20 +46,11 @@ function start()
             hostsUp=true
         fi
 
-        voipStats=$(wget -q -t 1 -T 15 --user admin --password admin 192.168.0.50/PI_FXS_1_Stats.xml -O -)
-
-        if [ -n "$voipStats" ] && [ "$voipUp" = false ]; then
-            voipUp=true
-            echo 'http://192.168.0.50/' | mail -s "VoIP is UP" "$ADMIN_EMAIL"
-        elif [ -z "$voipStats" ] && [ "$voipUp" = true ]; then
-            voipUp=false
-            echo 'http://192.168.0.50/' | mail -s "VoIP is DOWN" "$ADMIN_EMAIL"
-        fi
+        voipStats=$(wget -q -t 1 -T 15 --user admin --password admin voip/PI_FXS_1_Stats.xml -O -)
 
         if [ "$hostsUp" = true ] ||
            [[ $(netstat -anp | grep -w 64738 | grep ESTABLISHED) ]] ||
-           [ "$(echo $voipStats | xmllint --xpath "string(//model/object/parameter/value/@current)" - )" = "Off Hook" ] ||
-           [ "$(curl --data-binary '{ "jsonrpc": "2.0", "method": "XBMC.GetInfoBooleans", "params": { "booleans": ["System.IdleTime(599) "]}, "id": 1}' -H 'content-type: application/json;' http://kodi@localhost:8080/jsonrpc | jq .result[])" = false ]; then
+           [ "$(echo $voipStats | xmllint --xpath "string(//model/object/parameter/value/@current)" - )" = "Off Hook" ]; then
             if [ "$on" = true ]; then
                 pause
                 on=false
