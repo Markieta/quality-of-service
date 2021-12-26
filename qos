@@ -49,7 +49,7 @@ function start()
         voipStats=$(wget -q -t 1 -T 15 --user admin --password admin voip/PI_FXS_1_Stats.xml -O -)
 
         if [ "$hostsUp" = true ] ||
-           [[ $(netstat -anp | grep -w 64738 | grep ESTABLISHED) ]] ||
+           [[ $(ip -all netns exec netstat -tapn | grep -w 64738 | grep ESTABLISHED) ]] ||
            [ "$(echo $voipStats | xmllint --xpath "string(//model/object/parameter/value/@current)" - )" = "Off Hook" ]; then
             if [ "$on" = true ]; then
                 pause
