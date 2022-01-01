@@ -2,12 +2,12 @@
 
 function pause()
 {
-    transmission-remote 9091 -N /root/.netrc --alt-speed > /dev/null 2>&1
+    transmission-remote 192.168.0.2:9091 -N /root/.netrc --alt-speed > /dev/null 2>&1
 }
 
 function resume()
 {
-    transmission-remote 9091 -N /root/.netrc --no-alt-speed > /dev/null 2>&1
+    transmission-remote 192.168.0.2:9091 -N /root/.netrc --no-alt-speed > /dev/null 2>&1
 }
 
 function start()
